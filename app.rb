@@ -12,6 +12,7 @@ def gen_body(env)
 end
 
 get %r{/ya?ml} do
+  content_type :yaml
   body = gen_body(env)
   body.to_yaml
 end
