@@ -3,7 +3,7 @@ require 'sinatra/json'
 
 set :protection, :except => [:json_csrf]
 
-get '/robots.txt' do
+get %r{/(robots\.txt|favicon\.ico)} do
 end
 
 get '*' do
