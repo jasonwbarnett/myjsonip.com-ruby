@@ -20,6 +20,22 @@ You are able to query the site for your WAN IP address and it will return json (
 
 ## I have _x_ interfaces on my server with NATs, how can I leverage this site to get each interface WAN IP?
 
+I use the following script in production in order to quickly look up all interfaces or a single interface WAN
+IP. A few examples of how to use the script:
+
+- How to grab the WAN IP for ALL interfaces
+
+      $ find_wan_ip.rb
+
+- How to grab the WAN IP for a single interface
+
+      $ find_wan_ip.rb 192.168.2.5
+
+- How to grab the WAN IP for multiple interfaces
+
+      $ find_wan_ip.rb 192.168.2.5 192.168.2.6 ...
+
+    #!/usr/bin/env ruby
     require 'net/http'
     require 'json'
     require 'resolv'
