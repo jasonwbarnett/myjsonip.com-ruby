@@ -18,7 +18,7 @@ You are able to query the site for your WAN IP address and it will return json (
 | GET         | /all/yaml   | IP Address + Agent | yaml   |
 
 
-## I have x (multiple) IPs on my server with NATs, how can I leverage this site to get their WAN IP?
+## I have _x_ interfaces on my server with NATs, how can I leverage this site to get each interface WAN IP?
 
     require 'net/http'
     require 'json'
