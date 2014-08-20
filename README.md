@@ -8,7 +8,7 @@ implemented so far.
 You are able to query the site for your WAN IP address and it will return json (default) or yaml depending on the route.
 
 | HTTP Method | URI         | What is returned?  | Format |
-|-------------|-------------|--------------------|--------|
+|:------------|:------------|:-------------------|:-------|
 | GET         | /           | IP Address         | json   |
 | GET         | /yaml       | IP Address         | yaml   |
 | GET         | /agent      | Agent              | json   |
