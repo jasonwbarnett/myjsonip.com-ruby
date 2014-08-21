@@ -1,10 +1,28 @@
 require 'sinatra'
 require 'sinatra/json'
 require 'yaml'
+require 'action_view'
+require 'active_support/core_ext'
 
+set :show_exceptions, true
 set :protection, :except => [:json_csrf]
 
 helpers do
+  def get_format(params)
+    rec = params[:format]
+    case rec
+      when 'json'
+        format = 'json'
+      when 'yaml', 'yml'
+        format = 'yaml'
+      when 'xml'
+        format = 'xml'
+      else
+        format = 'json'
+    end
+   format
+  end
+
   def gen_ip(env)
     body = {"ip" => env['REMOTE_ADDR']}
   end
@@ -26,36 +44,49 @@ end
 get %r{/(robots\.txt|favicon\.ico)} do
 end
 
-get %r{/all/ya?ml}i do
-  content_type :yaml
+
+get '/all/?' do
+  format = get_format(params)
+  content_type format
   body = gen_all(env)
-  body.to_yaml
+  body.send("to_#{format}")
 end
 
-get '/all*' do
+get '/all/:format/?' do
+  format = get_format(params)
+  content_type format
   body = gen_all(env)
-  json(body)
+  body.send("to_#{format}")
 end
 
-get %r{/agent/ya?ml}i do
-  content_type :yaml
-  body = gen_agent(env)
-  body.to_yaml
-end
-
-get '/agent*' do
-  body = gen_agent(env)
-  json(body)
-end
-
-## Respond with ip via YAML be default
-get %r{/ya?ml.*}i do
-  content_type :yaml
+get '/ip/?' do
+  format = get_format(params)
+  content_type format
   body = gen_ip(env)
-  body.to_yaml
+  body.send("to_#{format}")
 end
 
-## Respond with JSON by default
+get '/ip/:format/?' do
+  format = get_format(params)
+  content_type format
+  body = gen_ip(env)
+  body.send("to_#{format}")
+end
+
+get '/agent/?' do
+  format = get_format(params)
+  content_type format
+  body = gen_agent(env)
+  body.send("to_#{format}")
+end
+
+get '/agent/:format/?' do
+  format = get_format(params)
+  content_type format
+  body = gen_agent(env)
+  body.send("to_#{format}")
+end
+
 get '*' do
   body = gen_ip(env)
   json(body)

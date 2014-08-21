@@ -6,17 +6,37 @@ implemented so far.
 
 ## How to use the site
 
-You are able to query the site for your WAN IP address and it will return json (default) or yaml depending on the route.
+You are able to query the site for your WAN IP address or agent and it will return it in json (default), yaml or xml depending on the route.
 
-| HTTP Method | URI         | What is returned?  | Format |
-|:------------|:------------|:-------------------|:-------|
-| GET         | /           | IP Address         | json   |
-| GET         | /yaml       | IP Address         | yaml   |
-| GET         | /agent      | Agent              | json   |
-| GET         | /agent/yaml | Agent              | yaml   |
-| GET         | /all        | IP Address + Agent | json   |
-| GET         | /all/yaml   | IP Address + Agent | yaml   |
+| HTTP Method | URI            | What is returned?  |
+|:------------|:---------------|:-------------------|
+| GET         | /ip/:format    | IP Address         |
+| GET         | /agent/:format | Agent              |
+| GET         | /all/:format   | IP Address + Agent |
 
+### Examples:
+
+http://myjsonip.com/ip or http://myjsonip.com/ip/json
+
+```json
+{"ip":"172.22.52.123"}
+```
+
+http://myjsonip.com/ip/yaml:
+
+```yaml
+---
+ip: 172.22.52.123
+```
+
+http://myjsonip.com/ip/xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <ip>172.22.52.123</ip>
+</hash>
+```
 
 ## I have _x_ interfaces on my server with NATs, how can I leverage this site to get each interface WAN IP?
 
@@ -63,7 +83,7 @@ How to grab the WAN IP for multiple interfaces: `$ find_wan_ip.rb 192.168.2.5 19
     ip_addresses = interfaces.map { |x| x[1] } if ip_addresses.empty?
     
     # Setup our http connection. This is used to discover the public/WAN IP.
-    uri  = URI('http://myjsonip.com/')
+    uri  = URI('http://myjsonip.com/ip')
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 2
     http.read_timeout = 2
