@@ -87,6 +87,13 @@ get '/agent/:format/?' do
   body.send("to_#{format}")
 end
 
+get '/:format/?' do
+  format = get_format(params)
+  content_type format
+  body = gen_ip(env)
+  body.send("to_#{format}")
+end
+
 get '*' do
   body = gen_ip(env)
   json(body)
