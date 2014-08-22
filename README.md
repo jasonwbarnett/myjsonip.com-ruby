@@ -1,4 +1,4 @@
-# myjsonip.com
+# myjsonip.com in Ruby
 
 This is a site that allows you to quickly get information relative to your hosts. IP address and agent are the only things
 implemented so far.
